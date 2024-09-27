@@ -339,6 +339,11 @@ Vérifier que l'autoformattage avec <https://prettier.io> et le linting avec <ht
 - `npx eslint server-http.mjs`
 - `npx prettier server-http.mjs --write`
 
+**Réponse**
+
+- Prettier autoformate le fichier à l'enregistrement.
+- ESLint affiche des erreurs ou avertissements.
+
 **Commit/push** dans votre dépot Git.
 
 ### Gestion manuelle des routes
@@ -398,6 +403,25 @@ Pour tester les différentes routes sur le serveur, voici les résultats attendu
 
 **Question 1.8** donner les codes HTTP reçus par votre navigateur pour chacune des quatre pages précédentes.
 
+### Question 1.8 : Codes HTTP reçus (mise à jour)
+
+Voici les codes HTTP retournés par le serveur pour chacune des quatre routes testées :
+
+1. **Route** : `http://localhost:8000/index.html`
+   - **Code HTTP** : `200 OK`
+   - **Détails** : La page `index.html` a été trouvée et servie correctement.
+
+2. **Route** : `http://localhost:8000/random.html`
+   - **Code HTTP** : `200 OK`
+   - **Détails** : La page `random.html` a été trouvée et servie correctement. Cette page retourne un nombre aléatoire à chaque fois qu'elle est chargée.
+
+3. **Route** : `http://localhost:8000/`
+   - **Code HTTP** : `404 Not Found`
+   - **Détails** : La racine `/` n'a pas été trouvée, erreur 404.
+
+4. **Route** : `http://localhost:8000/dont-exist`
+   - **Code HTTP** : `404 Not Found`
+   - **Détails** : La page `dont-exist` n'a pas été trouvée, le serveur a retourné une erreur 404.
 
 
 Maintenant, on veut ajouter une route `/random/:nb` où `:nb` est un paramètre entier avec le nombre d'entiers à générer. Ajouter cette route au `switch` et reprendre la page `random.html` pour générer autant de nombres qu'indiqué dans l'URL.
