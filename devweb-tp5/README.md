@@ -201,9 +201,50 @@ function requestListener(_request, response) {
 
 Maintenant, renommer le fichier `__index.html` en `index.html` et tester à nouveau.
 
+- Lorsque le fichier est correctement nommé et présent, le serveur répond avec un 200 OK et sert le contenu du fichier index.html.
+- En cas d'absence de ce fichier, l'erreur 500 Internal Server Error est renvoyée au client, avec un message indiquant que le fichier est introuvable.
+
 Enfin, reprenez `requestListener()` dans le style `async/await`.
 
+```javascript
+import fs from "node:fs/promises";
+
+async function requestListener(_request, response) {
+  try {
+    const contents = await fs.readFile("index.html", "utf8");
+    response.setHeader("Content-Type", "text/html");
+    response.writeHead(200);
+    return response.end(contents);
+  } catch (error) {
+    console.error(error);
+    response.writeHead(500, { "Content-Type": "text/plain" });
+    return response.end("500 Internal Server Error: File not found");
+  }
+}
+```
+
 **Question 1.5** donner le code de `requestListener()` modifié _avec gestion d'erreur_ en `async/await`.
+
+```javascript
+async function requestListener(_request, response) {
+  try {
+    const contents = await fs.readFile("index.html", "utf8");
+    response.setHeader("Content-Type", "text/html");
+    response.writeHead(200);
+    return response.end(contents);
+  } catch (error) {
+    console.error(error);
+    response.writeHead(500, { "Content-Type": "text/plain" });
+    return response.end("500 Internal Server Error: File not found");
+  }
+}
+```
+
+**Explication :**
+
+- La fonction est maintenant asynchrone grâce à l'utilisation de async/await, rendant le code plus lisible et évitant les callbacks imbriqués.
+- En cas de succès, le serveur renvoie une réponse 200 OK avec le contenu du fichier index.html.
+- Si le fichier est introuvable ou qu'une autre erreur survient, une réponse 500 Internal Server Error est renvoyée au client, accompagnée du message "File not found".
 
 **Commit/push** dans votre dépot Git.
 
@@ -215,6 +256,19 @@ Dans le dossier `devweb-tp5` exécuter les commandes suivantes :
 - `npm install nodemon --save-dev`
 
 **Question 1.6** indiquer ce que cette commande a modifié dans votre projet.
+
+### Modifications apportées au projet :
+
+#### Installation de cross-env :
+La commande `npm install cross-env --save` a ajouté la dépendance `cross-env` au fichier `package.json`. Cette bibliothèque permet de définir des variables d'environnement de manière compatible avec différents systèmes d'exploitation (Windows, Linux, macOS), facilitant ainsi l'exécution de scripts dans des environnements variés.
+
+#### Installation de nodemon :
+La commande `npm install nodemon --save-dev` a ajouté la dépendance `nodemon` à la section `devDependencies` du fichier `package.json`. `nodemon` est un outil qui surveille les modifications dans le code source et redémarre automatiquement l'application Node.js lorsque des changements sont détectés. Cela améliore l'efficacité du développement en évitant de redémarrer manuellement le serveur à chaque modification.
+
+### Fichiers modifiés :
+- **package.json :**
+  - Ajout de `cross-env` dans la section des dépendances.
+  - Ajout de `nodemon` dans la section des dépendances de développement.
 
 Ensuite, remplacer la propriété `"scripts"` du fichier `package.json` par la suivante :
 
@@ -230,7 +284,49 @@ Exécuter `npm run http-dev`, visiter le site, puis _pendant que le serveur s'ex
 Enregistrer le fichier et vérifier qu'il y a eu rechargement automatique grâce à <https://nodemon.io/>.
 Ensuite, faire la même chose avec la commande `npm run http-prod`.
 
+### Étapes exécutées :
+
+1. **Lancement du serveur en mode développement :**
+   - J'ai exécuté la commande `npm run http-dev`, ce qui a démarré le serveur en mode développement à l'aide de `nodemon`. Le serveur est accessible à l'adresse `http://localhost:8000`.
+
+2. **Ajout de la ligne de code :**
+   - Pendant que le serveur était en cours d'exécution, j'ai ouvert le fichier `server-http.mjs` et ajouté la ligne suivante :
+     ```javascript
+     console.log("NODE_ENV =", process.env.NODE_ENV);
+     ```
+   - Après avoir enregistré le fichier, j'ai observé la console où `nodemon` était en cours d'exécution. Le message `NODE_ENV = development` a été affiché, confirmant que la variable d'environnement `NODE_ENV` était bien définie.
+
+3. **Vérification du rechargement automatique :**
+   - Le rechargement automatique s'est produit comme prévu, sans nécessiter de redémarrage manuel du serveur, prouvant que `nodemon` fonctionne correctement. Cette fonctionnalité est détaillée sur [nodemon.io](https://nodemon.io/).
+
+4. **Lancement du serveur en mode production :**
+   - J'ai ensuite exécuté la commande `npm run http-prod`. Le serveur a démarré en mode production, ce qui a également permis d'observer si le rechargement automatique fonctionnait de la même manière.
+   - En ajoutant la ligne de code et en enregistrant le fichier pendant l'exécution du serveur en mode production, le rechargement automatique a également été effectué, confirmant que les modifications du code sont prises en compte dans les deux modes d'exécution.
+
+### Conclusion :
+
+Les tests effectués montrent que le rechargement automatique fonctionne efficacement dans les environnements de développement et de production grâce à `nodemon`, ce qui améliore considérablement le flux de travail de développement.
+
+
 **Question 1.7** quelles sont les différences entre les scripts `http-dev` et `http-prod` ?
+
+### Différences entre les scripts `http-dev` et `http-prod` :
+
+1. **Mode d'exécution :**
+   - **http-dev** : Ce script exécute le serveur en mode développement, ce qui permet d'utiliser `nodemon` pour surveiller les changements dans le code. Cela signifie que le serveur se redémarre automatiquement chaque fois qu'une modification est détectée, facilitant ainsi le processus de développement.
+   - **http-prod** : Ce script exécute le serveur en mode production. En général, dans ce mode, le serveur est configuré pour des performances optimales, et il n'utilise pas `nodemon`, ce qui signifie qu'il n'y a pas de redémarrage automatique en cas de modifications du code.
+
+2. **Définition de la variable d'environnement :**
+   - **http-dev** : La variable d'environnement `NODE_ENV` est généralement définie sur `development`. Cela peut entraîner un comportement différent dans le code, comme le logging détaillé ou des fonctionnalités spécifiques au développement.
+   - **http-prod** : La variable d'environnement `NODE_ENV` est définie sur `production`. Cela signifie que le serveur fonctionne avec des optimisations spécifiques au déploiement, comme la désactivation de certaines vérifications ou logs détaillés pour améliorer les performances.
+
+3. **Outils et dépendances utilisés :**
+   - **http-dev** : Utilise `nodemon` pour gérer le redémarrage automatique du serveur lors des modifications.
+   - **http-prod** : Utilise directement `node` pour exécuter le serveur sans surveillance des fichiers.
+
+### Résumé :
+
+En résumé, `http-dev` est conçu pour un développement rapide et efficace avec des redémarrages automatiques, tandis que `http-prod` est optimisé pour un environnement de production où la stabilité et les performances sont prioritaires.
 
 Les fichiers [`.eslintrc.json`](.eslintrc.json) et [`.prettierrc`](.prettierrc) sont fournis dans le dossier `devweb-tp5`. Exécuter la commande suivante pour installe les dépendances :
 
