@@ -23,7 +23,7 @@ async function requestListener(request, response) {
 
     case "random.html": 
       try {
-        // Générez un nombre aléatoire
+        // Génère un nombre aléatoire
         const randomNumber = Math.floor(Math.random() * 100);
         response.setHeader("Content-Type", "text/html");
         response.writeHead(200);
@@ -47,7 +47,6 @@ async function requestListener(request, response) {
         return response.end("400 Bad Request: Invalid number");
       }
     
-
     default:
       response.writeHead(404, { "Content-Type": "text/plain" });
       return response.end("404 Not Found");
