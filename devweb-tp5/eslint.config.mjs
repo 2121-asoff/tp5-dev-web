@@ -5,11 +5,11 @@ export default [
   {
     languageOptions: {
       globals: {
-        ...globals.browser, // Gardez les globals pour le navigateur
-        ...globals.node, // Ajoutez les globals pour Node.js
+        ...globals.browser, 
+        ...globals.node, 
       },
       parserOptions: {
-        ecmaVersion: 12,
+        ecmaVersion: 2022,
         sourceType: "module",
       },
     },
@@ -17,7 +17,16 @@ export default [
   pluginJs.configs.recommended,
   {
     rules: {
-      // Ajoutez vos règles personnalisées ici, si nécessaire
+      "no-restricted-syntax": [
+        "error",
+        "ForInStatement"
+      ],
+      "no-unused-vars": [
+        "error",
+        {
+          "argsIgnorePattern": "^_"
+        }
+      ],
     },
   },
 ];

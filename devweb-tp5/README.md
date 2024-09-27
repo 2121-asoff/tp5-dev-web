@@ -376,7 +376,29 @@ Tester les **routes** suivantes :
 - `http://localhost:8000/`
 - `http://localhost:8000/dont-exist`
 
+### Tester les Routes
+
+Pour tester les différentes routes sur le serveur, voici les résultats attendus pour chaque URL :
+
+1. **http://localhost:8000/index.html**
+   - **Attendu :** Afficher le contenu du fichier `index.html`.
+   - **Résultat Possible :** Si le fichier n'existe pas, une erreur 500 sera affichée avec le message "500 Internal Server Error: File not found".
+
+2. **http://localhost:8000/random.html**
+   - **Attendu :** Recevoir une erreur 404 (Not Found) car ce fichier n'existe pas.
+   - **Résultat Possible :** "404 Not Found".
+
+3. **http://localhost:8000/**
+   - **Attendu :** Renvoie le contenu de `index.html` si configuré comme page par défaut.
+   - **Résultat Possible :** Le contenu d'`index.html`, sinon une erreur.
+
+4. **http://localhost:8000/dont-exist**
+   - **Attendu :** Recevoir une erreur 404 (Not Found) car ce chemin n'existe pas.
+   - **Résultat Possible :** "404 Not Found".
+
 **Question 1.8** donner les codes HTTP reçus par votre navigateur pour chacune des quatre pages précédentes.
+
+
 
 Maintenant, on veut ajouter une route `/random/:nb` où `:nb` est un paramètre entier avec le nombre d'entiers à générer. Ajouter cette route au `switch` et reprendre la page `random.html` pour générer autant de nombres qu'indiqué dans l'URL.
 
