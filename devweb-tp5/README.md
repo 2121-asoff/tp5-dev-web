@@ -66,9 +66,10 @@ server.listen(port, host, () => {
 
 Enfin, exécuter la commande `node server-http.mjs` et vérifier que votre application web fonctionne en vous connectant avec votre navigateur.
 
-### Question 1.1 : Donner la liste des en-têtes de la réponse HTTP du serveur.
+**Question 1.1** donner la liste des en-têtes de la réponse HTTP du serveur.
 
-## Réponse 
+**Réponse**
+
 Les en-têtes HTTP retournés par le serveur lorsque la fonction `requestListener()` sert une réponse HTML simple sont les suivants :
 
 #### **État de la réponse** :
@@ -110,9 +111,10 @@ function requestListener(_request, response) {
 }
 ```
 
-### Question 1.2 : Donner la liste des en-têtes qui ont changé depuis la version précédente.
+**Question 1.2** donner la liste des en-têtes qui ont changé depuis la version précédente.
 
-## Réponse
+**Réponse** 
+
 Les en-têtes qui ont changé par rapport à la version précédente sont les suivants :
 
 #### **État de la réponse** :
@@ -160,9 +162,10 @@ function requestListener(_request, response) {
 }
 ```
 
-### Question 1.3 : Que contient la réponse reçue par le client ?
+**Question 1.3** que contient la réponse reçue par le client ?
 
-## Réponse
+**Réponse**
+
 La réponse reçue par le client contient le contenu du fichier `index.html` lu par le serveur. Le serveur envoie une réponse avec :
 - Le statut HTTP **200 OK**.
 - Le type de contenu défini par l'en-tête `Content-Type` à **text/html**.
@@ -174,7 +177,7 @@ Ainsi, le client reçoit la page HTML complète générée à partir du fichier 
 
 Modifier la fonction `requestListener()` précédente pour que le client recoive une erreur 500 si `index.html` est introuvable en remplacant le callback de la méthode `Promise.catch()`.
 
-## Réponse
+**Réponse**
 
 Lorsque le fichier `index.html` est introuvable, une erreur de type **ENOENT (Error NO ENTry)** est affichée dans la console. Cela signifie que le fichier demandé n'a pas été trouvé sur le système de fichiers.
 
@@ -228,7 +231,7 @@ async function requestListener(_request, response) {
 
 **Question 1.5** donner le code de `requestListener()` modifié _avec gestion d'erreur_ en `async/await`.
 
-## Réponse
+**Réponse**
 
 ```javascript
 async function requestListener(_request, response) {
@@ -262,14 +265,14 @@ Dans le dossier `devweb-tp5` exécuter les commandes suivantes :
 
 **Question 1.6** indiquer ce que cette commande a modifié dans votre projet.
 
-## Réponse
+**Réponse**
 
-### Modifications apportées au projet :
+###Modifications apportées au projet :
 
-#### Installation de cross-env :
+**Installation de cross-env** :
 La commande `npm install cross-env --save` a ajouté la dépendance `cross-env` au fichier `package.json`. Cette bibliothèque permet de définir des variables d'environnement de manière compatible avec différents systèmes d'exploitation (Windows, Linux, macOS), facilitant ainsi l'exécution de scripts dans des environnements variés.
 
-#### Installation de nodemon :
+**Installation de nodemon** :
 La commande `npm install nodemon --save-dev` a ajouté la dépendance `nodemon` à la section `devDependencies` du fichier `package.json`. `nodemon` est un outil qui surveille les modifications dans le code source et redémarre automatiquement l'application Node.js lorsque des changements sont détectés. Cela améliore l'efficacité du développement en évitant de redémarrer manuellement le serveur à chaque modification.
 
 ### Fichiers modifiés :
@@ -317,9 +320,9 @@ Les tests effectués montrent que le rechargement automatique fonctionne efficac
 
 **Question 1.7** quelles sont les différences entre les scripts `http-dev` et `http-prod` ?
 
-## Réponse
+**Réponse**
 
-### Différences entre les scripts `http-dev` et `http-prod` :
+**Différences entre les scripts `http-dev` et `http-prod` :**
 
 1. **Mode d'exécution :**
    - **http-dev** : Ce script exécute le serveur en mode développement, ce qui permet d'utiliser `nodemon` pour surveiller les changements dans le code. Cela signifie que le serveur se redémarre automatiquement chaque fois qu'une modification est détectée, facilitant ainsi le processus de développement.
@@ -412,9 +415,9 @@ Pour tester les différentes routes sur le serveur, voici les résultats attendu
 
 **Question 1.8** donner les codes HTTP reçus par votre navigateur pour chacune des quatre pages précédentes.
 
-## Réponse 
+**Réponse**
 
-### Codes HTTP reçus (mise à jour)
+**Codes HTTP reçus (mise à jour)**
 
 Voici les codes HTTP retournés par le serveur pour chacune des quatre routes testées :
 
@@ -481,7 +484,7 @@ npm install --save express http-errors loglevel morgan
 
 **Question 2.1** donner les URL des documentations de chacun des modules installés par la commande précédente.
 
-## Question 2.1
+**Réponse**
 
 Voici les URL des documentations pour chacun des modules installés :
 
@@ -527,6 +530,8 @@ app.listen(port, host);
 ```
 
 **Question 2.2** vérifier que les trois routes fonctionnent.
+
+**Réponse**
 
 ### Test de la route `/`
 
@@ -589,7 +594,9 @@ app.listen(port, host);
 
 **Question 2.3** lister les en-têtes des réponses fournies par Express. Lesquelles sont nouvelles par rapport au serveur HTTP ?
 
-## En-têtes de réponse fournies par Express
+**Réponse**
+
+### En-têtes de réponse fournies par Express
 
 Voici les en-têtes de réponse que reçus de notre serveur Express :
 
@@ -640,7 +647,7 @@ console.info(`File ${import.meta.url} executed.`);
 
 **Question 2.4** quand l'événement `listening` est-il déclenché ?
 
-## Réponse
+**Réponse**
 
 L'événement `listening` est déclenché lorsque le serveur Express commence à écouter sur le port spécifié et est prêt à accepter des connexions entrantes. Cela signifie que le serveur a réussi à se lier à l'adresse et au port sans erreurs.
 
@@ -661,7 +668,7 @@ Ce n'est pas très performant, d'autant plus qu'un _middleware_ Epxress [existe 
 
 **Question 2.5** indiquer quelle est l'option (activée par défaut) qui redirige `/` vers `/index.html` ?
 
-## Réponse
+**Réponse**
 
 L'option qui redirige automatiquement les requêtes vers la racine (`/`) vers `/index.html` est la gestion des fichiers statiques fournie par le middleware `express.static()`. 
 
@@ -673,7 +680,7 @@ Cette fonctionnalité est couramment utilisée pour les applications web afin de
 
 **Question 2.6** visiter la page d'accueil puis rafraichir (Ctrl+R) et _ensuite_ **forcer** le rafraichissement (Ctrl+Shift+R). Quels sont les codes HTTP sur le fichier `style.css` ? Justifier.
 
-## Réponse
+**Réponse**
 ### Codes HTTP observés :
 
 1. **Rafraîchissement normal (Ctrl+R)** :
@@ -773,10 +780,10 @@ Ensuite, créer, sur le modèle de `random.ejs`, une vue `error.ejs` dont le cor
 
 **Question 2.7** vérifier que l'affichage change bien entre le mode _production_ et le mode _development_.
 
-## Réponse
+**Réponse**
 
 1. **Mode _development_** :
-   - Démarer le serveur en mode développement :
+   - Démarrer le serveur en mode développement :
      ```bash
      NODE_ENV=development nodemon server-express.mjs 
      ```
@@ -791,7 +798,7 @@ Ensuite, créer, sur le modèle de `random.ejs`, une vue `error.ejs` dont le cor
    - Les informations de log incluent la méthode, l'URL, le code de statut, et le temps de réponse.
 
 2. **Mode _production_** :
-   - Démarrez le serveur en mode production :
+   - Démarrer le serveur en mode production :
      ```bash
      NODE_ENV=production nodemon server-express.mjs 
      ```
