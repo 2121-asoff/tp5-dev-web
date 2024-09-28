@@ -6,9 +6,11 @@ const port = 8000;
 
 const app = express();
 
-app.get(["/", "/index.html"], async function (request, response, next) {
-  response.sendFile("index.html", { root: "./" });
-});
+// Activer Morgan pour les environnements de développement
+if (app.get("env") === "development") app.use(morgan("dev"));
+
+// Middleware pour servir des fichiers statiques
+app.use(express.static("static"));
 
 app.get("/random/:nb", async function (request, response, next) {
   const length = request.params.nb;
@@ -27,3 +29,4 @@ server.on("listening", () =>
 );
 
 console.info(`File ${import.meta.url} executed.`);
+

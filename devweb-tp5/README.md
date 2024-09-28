@@ -517,7 +517,101 @@ app.listen(port, host);
 
 **Question 2.2** vérifier que les trois routes fonctionnent.
 
+### Test de la route `/`
+
+- **URL** : `http://localhost:8000/`
+- **État** : `304 Not Modified`
+- **Transfert** : 1,16 Ko (taille 895 o)
+- **Version** : HTTP/1.1
+- **Priorité de la requête** : Highest
+- **Résolution DNS** : Système
+
+- **En-têtes de la réponse** :
+  - **Accept-Ranges** : bytes
+  - **Cache-Control** : public, max-age=0
+  - **Connection** : keep-alive
+  - **Date** : Sat, 28 Sep 2024 02:32:08 GMT
+  - **ETag** : W/"37f-19233575cc3"
+  - **Keep-Alive** : timeout=5
+  - **Last-Modified** : Fri, 27 Sep 2024 11:56:56 GMT
+  - **X-Powered-By** : Express
+
+- **Description** : Cette requête a retourné un état `304 Not Modified`, indiquant que le contenu n'a pas changé depuis la dernière requête. Cela signifie que le navigateur peut utiliser le cache pour cette ressource, ce qui permet d'économiser de la bande passante et d'accélérer le chargement des pages.
+
+### Test de la route `/index.html`
+
+- **URL** : `http://localhost:8000/index.html`
+- **État** : `304 Not Modified`
+- **Transfert** : 1,16 Ko (taille 895 o)
+- **Version** : HTTP/1.1
+- **Priorité de la requête** : Highest
+- **Résolution DNS** : Système
+
+- **En-têtes de la réponse** :
+  - **Accept-Ranges** : bytes
+  - **Cache-Control** : public, max-age=0
+  - **Connection** : keep-alive
+  - **Date** : Sat, 28 Sep 2024 02:33:00 GMT
+  - **ETag** : W/"37f-19233575cc3"
+  - **Keep-Alive** : timeout=5
+  - **Last-Modified** : Fri, 27 Sep 2024 11:56:56 GMT
+  - **X-Powered-By** : Express
+
+- **Description** : Cette requête a retourné un état `304 Not Modified`, indiquant que le fichier `index.html` n'a pas été modifié depuis la dernière requête. Le client peut donc utiliser la version mise en cache de ce fichier, ce qui améliore les performances en réduisant le besoin de transférer des données inutiles.
+
+### Test de la route `/random/5`
+
+- **URL** : `http://localhost:8000/random/5`
+- **État** : `200 OK`
+- **Contenu retourné** :
+  ```html
+  <html>
+    <ul>
+      <li>23</li>
+      <li>78</li>
+      <li>4</li>
+      <li>56</li>
+      <li>39</li>
+    </ul>
+  </html>
+
+
 **Question 2.3** lister les en-têtes des réponses fournies par Express. Lesquelles sont nouvelles par rapport au serveur HTTP ?
+
+## En-têtes de réponse fournies par Express
+
+Voici les en-têtes de réponse que reçus de notre serveur Express :
+
+1. **État**: `200 OK`
+2. **Connection**: `keep-alive`
+3. **Content-Length**: `81`
+4. **Content-Type**: `text/html; charset=utf-8`
+5. **Date**: `Sat, 28 Sep 2024 02:39:34 GMT`
+6. **ETag**: `W/"51-vKboL0ap7G8Be6+HeXRmSJUUz5Y"`
+7. **Keep-Alive**: `timeout=5`
+8. **X-Powered-By**: `Express`
+
+## En-têtes supplémentaires pour la requête
+
+Ces en-têtes proviennent de la requête faite par le client et ne font pas partie de la réponse :
+
+1. **Accept**
+2. **Accept-Encoding**
+3. **Accept-Language**
+4. **Cookie**
+5. **If-None-Match**
+6. **User-Agent**
+
+## En-têtes nouveaux par rapport au serveur HTTP
+
+Les en-têtes qui sont nouveaux par rapport à un serveur HTTP classique (comme celui fourni par Node.js sans Express) comprennent :
+
+- **X-Powered-By**: Spécifie que l'application utilise le framework Express.
+- **ETag**: Utilisé pour la gestion du cache et la validation de contenu, permettant au client de demander une ressource uniquement si elle a changé.
+- **Keep-Alive**: Indique la gestion de la connexion persistante entre le client et le serveur.
+
+Ces en-têtes fournissent des informations supplémentaires et améliorent la gestion des ressources et des performances du serveur.
+
 
 Remplacer la dernière ligne de `server-express.mjs` par les suivantes
 
@@ -535,6 +629,13 @@ console.info(`File ${import.meta.url} executed.`);
 
 **Question 2.4** quand l'événement `listening` est-il déclenché ?
 
+## Réponse
+
+L'événement `listening` est déclenché lorsque le serveur Express commence à écouter sur le port spécifié et est prêt à accepter des connexions entrantes. Cela signifie que le serveur a réussi à se lier à l'adresse et au port sans erreurs.
+
+Dans le code fourni, cet événement se produit après l'appel à `app.listen(port, host)`, indiquant que le serveur a été démarré avec succès. Lorsque le serveur est en écoute, l'événement `listening` est émis, et le message spécifié dans le gestionnaire d'événements est affiché dans la console, signalant que le serveur est opérationnel.
+
+
 **Commit/push** dans votre dépot Git.
 
 ### Ajout de middlewares
@@ -549,7 +650,29 @@ Ce n'est pas très performant, d'autant plus qu'un _middleware_ Epxress [existe 
 
 **Question 2.5** indiquer quelle est l'option (activée par défaut) qui redirige `/` vers `/index.html` ?
 
+## Réponse
+
+L'option qui redirige automatiquement les requêtes vers la racine (`/`) vers `/index.html` est la gestion des fichiers statiques fournie par le middleware `express.static()`. 
+
+### Explication :
+
+Lorsque nous utilisons `app.use(express.static("static"));`, Express recherche d'abord un fichier correspondant à la requête. Si la requête est pour la racine (`/`), Express cherche le fichier `index.html` dans le dossier spécifié (`static` dans ce cas). Si `index.html` est présent, il est renvoyé par défaut, ce qui permet ainsi la redirection implicite de `/` vers `/index.html`.
+
+Cette fonctionnalité est couramment utilisée pour les applications web afin de fournir une page d'accueil par défaut lorsque l'utilisateur accède à la racine du site.
+
 **Question 2.6** visiter la page d'accueil puis rafraichir (Ctrl+R) et _ensuite_ **forcer** le rafraichissement (Ctrl+Shift+R). Quels sont les codes HTTP sur le fichier `style.css` ? Justifier.
+
+## Réponse
+### Codes HTTP observés :
+
+1. **Rafraîchissement normal (Ctrl+R)** :
+   - **Code HTTP : 304 Not Modified**
+     - **Justification :** Ce code indique que le fichier `style.css` n'a pas été modifié depuis la dernière fois qu'il a été demandé. Le navigateur utilise donc une version mise en cache du fichier au lieu de le télécharger à nouveau.
+
+2. **Rafraîchissement forcé (Ctrl+Shift+R)** :
+   - **Code HTTP : 304 Not Modified**
+     - **Justification :** Même en forçant le rafraîchissement, si le fichier `style.css` n'a pas été modifié depuis sa dernière requête, le serveur peut renvoyer un code 304. Cela se produit lorsque le navigateur envoie des en-têtes de cache tels que `If-Modified-Since` ou `If-None-Match`, et que le serveur constate qu'aucune modification n'a été faite sur le fichier.
+
 
 Ajouter la ligne `if (app.get("env") === "development") app.use(morgan("dev"));` au bon endroit dans `server-express.mjs` pour activer le middleware Morgan.
 
