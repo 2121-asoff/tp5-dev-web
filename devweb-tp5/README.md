@@ -428,6 +428,31 @@ Maintenant, on veut ajouter une route `/random/:nb` où `:nb` est un paramètre 
 
 Pour cela, utiliser `request.url.split("/");` qui va décomposer le chemin demandé et faire le `switch` sur le premier niveau de l'arborescence. Faites en sorte que le `switch` traite `/index.html` et `/` de la même façon.
 
+
+## Ajout de la Route `/random/:nb`
+
+### Description
+Nous avons ajouté une nouvelle route `/random/:nb` où `:nb` est un paramètre entier spécifiant le nombre d'entiers à générer. Cette fonctionnalité permet de retourner un ensemble de nombres aléatoires en fonction de la valeur spécifiée dans l'URL.
+
+### Mise en œuvre
+1. **Modification du Serveur** :
+   - Dans le fichier `server-http.mjs`, un `switch` a été ajouté pour traiter la nouvelle route.
+   - La route est définie pour répondre aux requêtes de la forme `/random/:nb`.
+
+   ```javascript
+   case "random": 
+     if (urlParts.length > 2 && !isNaN(urlParts[2])) {
+       const nb = parseInt(urlParts[2], 10);
+       const randomNumbers = Array.from({ length: nb }, () => Math.floor(Math.random() * 100));
+       response.setHeader("Content-Type", "text/html");
+       response.writeHead(200);
+       return response.end(`Random numbers: ${randomNumbers.join(", ")}`);
+     } else {
+       response.writeHead(400, { "Content-Type": "text/plain" });
+       return response.end("400 Bad Request: Invalid number");
+     }
+    ```
+
 **Commit/push** dans votre dépot Git.
 
 ## Partie 2 : framework Express
@@ -444,6 +469,23 @@ npm install --save express http-errors loglevel morgan
 ```
 
 **Question 2.1** donner les URL des documentations de chacun des modules installés par la commande précédente.
+
+## Question 2.1
+
+Voici les URL des documentations pour chacun des modules installés :
+
+1. **Express**  
+   [Documentation Express](https://expressjs.com/en/starter/installing.html)
+
+2. **http-errors**  
+   [Documentation http-errors](https://github.com/jshttp/http-errors)
+
+3. **loglevel**  
+   [Documentation loglevel](https://github.com/pimterry/loglevel)
+
+4. **morgan**  
+   [Documentation morgan](https://github.com/expressjs/morgan)
+
 
 Ensuite, sur le modèle des scripts `http-prod` et `http-dev` du fichier `package.json`, créer les scripts `express-prod` et `express-dev`.
 
