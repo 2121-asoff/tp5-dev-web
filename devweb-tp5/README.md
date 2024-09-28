@@ -762,6 +762,37 @@ Ensuite, créer, sur le modèle de `random.ejs`, une vue `error.ejs` dont le cor
 
 **Question 2.7** vérifier que l'affichage change bien entre le mode _production_ et le mode _development_.
 
+## Réponse
+
+1. **Mode _development_** :
+   - Démarer le serveur en mode développement :
+     ```bash
+     NODE_ENV=development nodemon server-express.mjs 
+     ```
+     ou 
+     ```bash
+     npm run express-dev
+     ```
+   - Morgan est activé, ce qui affiche des logs détaillés des requêtes HTTP. Exemple :
+     ```bash
+     GET /javascript 200 14.132 ms - 1501
+     ```
+   - Les informations de log incluent la méthode, l'URL, le code de statut, et le temps de réponse.
+
+2. **Mode _production_** :
+   - Démarrez le serveur en mode production :
+     ```bash
+     NODE_ENV=production nodemon server-express.mjs 
+     ```
+     ou 
+     ```bash
+     npm run express-prod
+     ```
+   - Morgan est désactivé en mode production. Seules les informations essentielles sont affichées :
+     ```bash
+     HTTP listening on http://::1:8000 with mode 'production'
+     ```
+     
 **Commit/push** dans votre dépot Git.
 
 Enfin, chargez le module `loglevel` avec `import logger from "loglevel";` puis fixer un niveau de verbosité avec `logger.setLevel(logger.levels.DEBUG);`.
