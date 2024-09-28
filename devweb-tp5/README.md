@@ -68,7 +68,8 @@ Enfin, exécuter la commande `node server-http.mjs` et vérifier que votre appli
 
 ### Question 1.1 : Donner la liste des en-têtes de la réponse HTTP du serveur.
 
-**Réponse** : Les en-têtes HTTP retournés par le serveur lorsque la fonction `requestListener()` sert une réponse HTML simple sont les suivants :
+## Réponse 
+Les en-têtes HTTP retournés par le serveur lorsque la fonction `requestListener()` sert une réponse HTML simple sont les suivants :
 
 #### **État de la réponse** :
 - **Statut** : 200 OK
@@ -111,7 +112,8 @@ function requestListener(_request, response) {
 
 ### Question 1.2 : Donner la liste des en-têtes qui ont changé depuis la version précédente.
 
-**Réponse** : Les en-têtes qui ont changé par rapport à la version précédente sont les suivants :
+## Réponse
+Les en-têtes qui ont changé par rapport à la version précédente sont les suivants :
 
 #### **État de la réponse** :
 - **Statut** : 200 OK
@@ -160,7 +162,8 @@ function requestListener(_request, response) {
 
 ### Question 1.3 : Que contient la réponse reçue par le client ?
 
-**Réponse** : La réponse reçue par le client contient le contenu du fichier `index.html` lu par le serveur. Le serveur envoie une réponse avec :
+## Réponse
+La réponse reçue par le client contient le contenu du fichier `index.html` lu par le serveur. Le serveur envoie une réponse avec :
 - Le statut HTTP **200 OK**.
 - Le type de contenu défini par l'en-tête `Content-Type` à **text/html**.
 - Le corps de la réponse contenant le **contenu HTML** du fichier `index.html`.
@@ -171,7 +174,7 @@ Ainsi, le client reçoit la page HTML complète générée à partir du fichier 
 
 Modifier la fonction `requestListener()` précédente pour que le client recoive une erreur 500 si `index.html` est introuvable en remplacant le callback de la méthode `Promise.catch()`.
 
-**Réponse** : 
+## Réponse
 
 Lorsque le fichier `index.html` est introuvable, une erreur de type **ENOENT (Error NO ENTry)** est affichée dans la console. Cela signifie que le fichier demandé n'a pas été trouvé sur le système de fichiers.
 
@@ -225,6 +228,8 @@ async function requestListener(_request, response) {
 
 **Question 1.5** donner le code de `requestListener()` modifié _avec gestion d'erreur_ en `async/await`.
 
+## Réponse
+
 ```javascript
 async function requestListener(_request, response) {
   try {
@@ -256,6 +261,8 @@ Dans le dossier `devweb-tp5` exécuter les commandes suivantes :
 - `npm install nodemon --save-dev`
 
 **Question 1.6** indiquer ce que cette commande a modifié dans votre projet.
+
+## Réponse
 
 ### Modifications apportées au projet :
 
@@ -309,6 +316,8 @@ Les tests effectués montrent que le rechargement automatique fonctionne efficac
 
 
 **Question 1.7** quelles sont les différences entre les scripts `http-dev` et `http-prod` ?
+
+## Réponse
 
 ### Différences entre les scripts `http-dev` et `http-prod` :
 
@@ -403,7 +412,9 @@ Pour tester les différentes routes sur le serveur, voici les résultats attendu
 
 **Question 1.8** donner les codes HTTP reçus par votre navigateur pour chacune des quatre pages précédentes.
 
-### Question 1.8 : Codes HTTP reçus (mise à jour)
+## Réponse 
+
+### Codes HTTP reçus (mise à jour)
 
 Voici les codes HTTP retournés par le serveur pour chacune des quatre routes testées :
 
@@ -792,7 +803,7 @@ Ensuite, créer, sur le modèle de `random.ejs`, une vue `error.ejs` dont le cor
      ```bash
      HTTP listening on http://::1:8000 with mode 'production'
      ```
-     
+
 **Commit/push** dans votre dépot Git.
 
 Enfin, chargez le module `loglevel` avec `import logger from "loglevel";` puis fixer un niveau de verbosité avec `logger.setLevel(logger.levels.DEBUG);`.
