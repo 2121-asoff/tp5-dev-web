@@ -12,12 +12,18 @@ if (app.get("env") === "development") app.use(morgan("dev"));
 // Middleware pour servir des fichiers statiques
 app.use(express.static("static"));
 
+// Configurer EJS comme moteur de rendu
+app.set("view engine", "ejs");
+
 app.get("/random/:nb", async function (request, response, next) {
-  const length = request.params.nb;
-  const contents = Array.from({ length })
-    .map((_) => `<li>${Math.floor(100 * Math.random())}</li>`)
-    .join("\n");
-  return response.send(`<html><ul>${contents}</ul></html>`);
+  const length = parseInt(request.params.nb, 10); // Convertir en entier
+  const numbers = Array.from({ length })
+    .map(() => Math.floor(100 * Math.random())); // Générer un tableau de nombres aléatoires
+
+  const welcome = "Bienvenue sur la page des nombres aléatoires"; // Message de bienvenue
+
+  // Appeler le moteur de rendu avec les données générées
+  return response.render("random", { numbers, welcome });
 });
 
 const server = app.listen(port, host);
@@ -29,4 +35,3 @@ server.on("listening", () =>
 );
 
 console.info(`File ${import.meta.url} executed.`);
-
