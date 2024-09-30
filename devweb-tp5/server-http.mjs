@@ -21,7 +21,7 @@ async function requestListener(request, response) {
         return response.end("500 Internal Server Error: File not found");
       }
 
-    case "random.html": 
+    case "random.html":
       try {
         // Génère un nombre aléatoire
         const randomNumber = Math.floor(Math.random() * 100);
@@ -34,11 +34,13 @@ async function requestListener(request, response) {
         return response.end("500 Internal Server Error");
       }
 
-      case "random": 
+    case "random":
       // Vérifier si l'URL contient un paramètre supplémentaire
       if (urlParts.length > 2 && !isNaN(urlParts[2])) {
         const nb = parseInt(urlParts[2], 10);
-        const randomNumbers = Array.from({ length: nb }, () => Math.floor(Math.random() * 100));
+        const randomNumbers = Array.from({ length: nb }, () =>
+          Math.floor(Math.random() * 100),
+        );
         response.setHeader("Content-Type", "text/html");
         response.writeHead(200);
         return response.end(`Random numbers: ${randomNumbers.join(", ")}`);
@@ -46,7 +48,7 @@ async function requestListener(request, response) {
         response.writeHead(400, { "Content-Type": "text/plain" });
         return response.end("400 Bad Request: Invalid number");
       }
-    
+
     default:
       response.writeHead(404, { "Content-Type": "text/plain" });
       return response.end("404 Not Found");
